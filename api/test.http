@@ -1,0 +1,15 @@
+# GET http://localhost:3000/devices
+
+GET http://localhost:3000/
+
+#  GET http://localhost:3000/history
+
+# POST  http://localhost:3000/devices
+# content-type: application/json
+
+# {
+#     "light": "On",
+#     "fan": "On",
+#     "water_pump": "On",
+#     "time": "2024-07-01 23:40:20"
+# }
