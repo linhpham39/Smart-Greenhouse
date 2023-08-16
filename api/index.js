@@ -1,23 +1,30 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const cors = require('cors');
-const pool = require('./db');
+// const cors = require('cors');
+const con = require('./db');
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+con.connect((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('Connected to database');
+})
 app.get('/', (req, res) => {
-    pool.query('SELECT * FROM "parameters" order by time desc', (err, result) => {
+    con.query('SELECT * FROM parameters order by time desc', (err, result) => {
         if (err) {
             throw err;
         }
-        res.send(result.rows[0]);
+        res.send(result[0]);
     }
     );
 })
 
 app.get('/history', (req, res) => {
-    pool.query('SELECT * FROM "history" order by time desc', (err, result) => {
+    con.query('SELECT * FROM history order by time desc', (err, result) => {
         if (err) {
             throw err;
         }
@@ -27,17 +34,17 @@ app.get('/history', (req, res) => {
 })
 
 app.get('/devices', (req, res) => {
-    pool.query('SELECT * FROM "devices" order by time desc', (err, result) => {
+    con.query('SELECT * FROM devices order by time desc', (err, result) => {
         if (err) {
             throw err;
         }
-        res.send(result.rows[0]);
+        res.send(result[0]);
     }
     );
 })
 
 app.post('/', (req, res) => {
-    pool.query('INSERT INTO parameters (temperature, pH, ec, humidity, time) values($1, $2, $3, $4, $5)', [req.body.temperature, req.body.humidity, req.body.ph, req.body.ec, req.body.time], (err, result) => {
+    con.query('INSERT INTO parameters (temperature, pH, ec, humidity, time) values($1, $2, $3, $4, $5)', [req.body.temperature, req.body.humidity, req.body.ph, req.body.ec, req.body.time], (err, result) => {
         if (err) {
             throw err;
         }
@@ -47,15 +54,16 @@ app.post('/', (req, res) => {
 })
 
 app.post('/devices', (req, res) => {
-    pool.query('INSERT INTO devices (light, fan, water_pump, time) values($1, $2, $3, $4)', [req.body.light, req.body.fan, req.body.water_pump, req.body.time], (err, result) => {
+    con.query('INSERT INTO devices (light, ec_pump, ph_pump, oxi_pump, time) values(?, ?, ?, ?, ?)', [req.body.light, req.body.ec_pump, req.body.ph_pump, req.body.oxi_pump,req.body.time], (err, result) => {
         if (err) {
             throw err;
         }
         console.log(req.body);
-        res.send(result.rows);
+        res.send(result);
+        console.log(result);
     }
     );
-})
+}) 
 
 
 

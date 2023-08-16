@@ -1,12 +1,12 @@
 import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+// import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
-
+  title = "Set Thresholds";	
   return (
     <div className="new">
       <Sidebar />
@@ -16,7 +16,7 @@ const New = ({ inputs, title }) => {
           <h1>{title}</h1>
         </div>
         <div className="bottom">
-          <div className="left">
+          {/* <div className="left">
             <img
               src={
                 file
@@ -25,10 +25,10 @@ const New = ({ inputs, title }) => {
               }
               alt=""
             />
-          </div>
+          </div> */}
           <div className="right">
             <form>
-              <div className="formInput">
+              {/* <div className="formInput">
                 <label htmlFor="file">
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
@@ -38,7 +38,7 @@ const New = ({ inputs, title }) => {
                   onChange={(e) => setFile(e.target.files[0])}
                   style={{ display: "none" }}
                 />
-              </div>
+              </div> */}
 
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>

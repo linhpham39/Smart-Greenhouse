@@ -14,7 +14,7 @@
     margin-left: 20px;
     align-items: center;
     justify-content: space-between;
-    color: gray;
+    color: rgb(97, 96, 96);
 
     .title {
       font-size: 16px;
@@ -43,20 +43,37 @@
       // text-align: center;
     }
   }
-  .featuredBottom{
-    // display: flex;
+  .featuredBottom {
     margin-left: 100px;
     margin-top: 20px;
   }
-  .buttonOnFeature{
-    color: green;
-    margin-right: 40px;
+  .on{
+    .buttonOnFeature{
+      color: green;
+      margin-right: 40px;
+      background-color: rgba(0, 128, 0, 0.2);
+    }
+    
+    .buttonOffFeature{ 
+      color: rgb(156, 151, 151);
+      background-color: none;
+    }
   }
-  
-  .buttonOffFeature{ 
-    color: red;
+  .off{
+    .buttonOnFeature{
+      color: rgb(124, 123, 123);
+      margin-right: 40px;
+      background-color: none;
+    }
+    
+    .buttonOffFeature{ 
+      color: red;
+      background-color: rgba(255, 0, 0, 0.2);
+    }
   }
 }
+
+
 
 .rightFeature{
   flex: 2;

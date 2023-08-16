@@ -21,13 +21,13 @@ const SystemInfo = ({controlDevices, parameters}) => {
                 <p className="statusDevice">Current status</p>
                 <ul className="currentDevices">
                 <li className="currentDevice">Light: {controlDevices.light}</li>
-                <li className="currentDevice">PH pump: {controlDevices.ph}</li>
-                <li className="currentDevice">EC pump: {controlDevices.ec}</li>
-                <li className="currentDevice">Oxi pump: {controlDevices.oxi}</li>
+                <li className="currentDevice">PH pump: {controlDevices.ph_pump}</li>
+                <li className="currentDevice">EC pump: {controlDevices.ec_pump}</li>
+                <li className="currentDevice">Oxi pump: {controlDevices.oxi_pump}</li>
                 </ul>
                 <p className="thresholdDevice">Current threshold:</p>
                 <ul className="threshold">
-                <li className="currentThreshold">Temperature: {parameters.temp}</li>
+                <li className="currentThreshold">Temperature: {parameters.temperature}</li>
                 <li className="currentThreshold">PH: {parameters.ph}</li>
                 <li className="currentThreshold">EC: {parameters.ec}</li>
                 <li className="currentThreshold">Humidity: {parameters.humidity}</li>

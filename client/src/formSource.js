@@ -1,28 +1,28 @@
 export const userInputs = [
     {
       id: 1,
-      label: "Username",
+      label: "Temperature",
       type: "text",
-      placeholder: "john_doe",
+      placeholder: "e.g: 30 °C",
     },
     {
       id: 2,
-      label: "Name and surname",
+      label: "pH",
       type: "text",
-      placeholder: "John Doe",
+      placeholder: "e.g: 4.0 pH",
     },
     {
       id: 3,
-      label: "Email",
-      type: "mail",
-      placeholder: "john_doe@gmail.com",
+      label: "EC",
+      type: "text",
+      placeholder: "e.g: 1.5 EC",
     },
     {
       id: 4,
-      label: "Phone",
+      label: "Humidity",
       type: "text",
-      placeholder: "+1 234 567 89",
-    },
+      placeholder: "r.g: 50 %",
+    }/* ,
     {
       id: 5,
       label: "Password",
@@ -39,7 +39,7 @@ export const userInputs = [
       label: "Country",
       type: "text",
       placeholder: "USA",
-    },
+    }, */
   ];
   
   export const productInputs = [
