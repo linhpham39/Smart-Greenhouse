@@ -1,6 +1,6 @@
 # GET http://localhost:3000/devices
 
-GET http://localhost:3000/
+# GET http://localhost:3000/
 
 #  GET http://localhost:3000/history
 
@@ -9,7 +9,19 @@ GET http://localhost:3000/
 
 # {
 #     "light": "On",
-#     "fan": "On",
-#     "water_pump": "On",
-#     "time": "2024-07-01 23:40:20"
-# }
+#     "ec_pump": "On",
+#     "ph_pump": "On",
+#     "oxi_pump": "On",
+#     "time": "2024-08-12 23:40:20"
+#  }
+
+PATCH   http://localhost:3000/updateThresholds
+content-type: application/json
+
+{
+    "temperature": 30,
+    "ec": 20,
+    "ph": 7.5,
+    "humidity": 30
+}
+

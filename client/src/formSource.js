@@ -21,7 +21,7 @@ export const userInputs = [
       id: 4,
       label: "Humidity",
       type: "text",
-      placeholder: "r.g: 50 %",
+      placeholder: "e.g: 50 %",
     }/* ,
     {
       id: 5,
