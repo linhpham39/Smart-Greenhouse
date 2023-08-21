@@ -57,10 +57,12 @@ const Sidebar = () => {
             <span>Stats</span>
             </li>
           </Link>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
-          </li>
+          <Link to="/notifications" style={{ textDecoration: "none" }}>
+            <li>
+              <NotificationsNoneIcon className="icon" />
+              <span>Notifications</span>
+            </li>
+          </Link>
           <p className="title">SERVICE</p>
           <Link to="/users/new" style={{ textDecoration: "none" }}>
             <li>

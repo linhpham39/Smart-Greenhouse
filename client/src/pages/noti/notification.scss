@@ -1,0 +1,20 @@
+.notification {
+    display: flex;
+    width: 100%;
+    .notificationContainer {
+      flex: 6;
+    }
+    .notificationTitle{
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-left: 1rem;
+    }
+    .tableNoti{
+        border: 1.5px solid #f5f2f2;
+        margin: 20px 8px 10px 10px;
+    }
+    .tableNoti thead{
+        background-color: #f5f2f2;
+    }
+}

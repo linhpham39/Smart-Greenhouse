@@ -6,6 +6,7 @@ import Featured from "../../components/featured/Featured";
 import Table from "../../components/table/Table";
 import SystemInfo from "../../components/infor/SystemInfo";
 import useFetch from "../../hooks/useFetch";
+import { useEffect, useState } from "react";
 import axios from "axios";
 const Home = () => {
   //fetch data from api
@@ -27,7 +28,7 @@ const Home = () => {
     // setParameters(res.data);
     
   }); */
-  
+
   // console.log('device',controlDevices);
   // console.log('status light', controlDevices.light);
   //console.log('para',parameters);
@@ -50,36 +51,34 @@ const Home = () => {
       <div className="homeContainer">
         <Navbar />
         <div className="widgets">
-          <Widget type="temperature" value = {parameters.temperature}/>
-          <Widget type="ph" value = {parameters.ph}/>
-          <Widget type="ec" value={parameters.ec}/>
-          <Widget type="humidity" value= {parameters.humidity}/>
+          <Widget type="temperature" value={parameters.temperature} />
+          <Widget type="ph" value={parameters.ph} />
+          <Widget type="ec" value={parameters.ec} />
+          <Widget type="humidity" value={parameters.humidity} />
         </div>
         <div className="controlSystem">
           <div className="controlSystemLeft">
-            <SystemInfo 
-              controlDevices={controlDevices} 
+            <SystemInfo
+              controlDevices={controlDevices}
               parameters={parameters}
             />
           </div>
-          <div className="controlSystemRight">          
-          <h2 className="controlTitle">Control Devices</h2>
+          <div className="controlSystemRight">
+            <h2 className="controlTitle">Control Devices</h2>
             <div className="controlDevice">
               <div className="charts">
-                <Featured type="Light" status = {controlDevices.light}/>
+                <Featured type="light" status={controlDevices} />
               </div>
               <div className="charts">
-              <Featured type="EC pump" status = {controlDevices.ec_pump}/>                
+                <Featured type="ec_pump" status={controlDevices} />
               </div>
             </div>
             <div className="controlDevice">
               <div className="charts">
-               <Featured type="PH pump" status = {controlDevices.ph_pump}/>
-                {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
+                <Featured type="ph_pump" status={controlDevices} />
               </div>
               <div className="charts">
-                <Featured type="Oxi pump" status = {controlDevices.oxi_pump}/>
-                {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
+                <Featured type="oxi_pump" status={controlDevices} />
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 # GET http://localhost:3000/
 
-#  GET http://localhost:3000/history
+#   GET http://localhost:3000/notifications
 
 # POST  http://localhost:3000/devices
 # content-type: application/json
@@ -15,13 +15,23 @@
 #     "time": "2024-08-12 23:40:20"
 #  }
 
-PATCH   http://localhost:3000/updateThresholds
+# PATCH   http://localhost:3000/updateThresholds
+# content-type: application/json
+
+# {
+#     "temperature": 0,
+#     "ec": 20,
+#     "ph": 7.5,
+#     "humidity": 10
+# }
+
+
+# GET http://localhost:3000/getThresholds
+
+POST  http://localhost:3000/notifications
 content-type: application/json
 
 {
-    "temperature": 30,
-    "ec": 20,
-    "ph": 7.5,
-    "humidity": 30
-}
-
+    "message": "pH is beyond 4.5",
+    "time": "2024-08-13 23:40:20"
+ }

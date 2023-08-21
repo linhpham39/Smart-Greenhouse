@@ -4,6 +4,7 @@ const port = 3000;
 const cors = require('cors');
 const con = require('./db');
 const fs = require('fs');
+
 app.use(express.json());
 app.use(cors());
 
@@ -23,12 +24,12 @@ app.get('/', (req, res) => {
     );
 })
 
-app.get('/history', (req, res) => {
-    con.query('SELECT * FROM history order by time desc', (err, result) => {
+app.get('/notifications', (req, res) => {
+    con.query('SELECT * FROM notifications order by time desc', (err, result) => {
         if (err) {
             throw err;
         }
-        res.send(result.rows);
+        res.send(result);
     }
     );
 })
@@ -43,29 +44,11 @@ app.get('/devices', (req, res) => {
     );
 })
 
-app.post('/history', (req, res) => {
-    con.query('INSERT INTO history (message, time) values($1, $2)', [req.body.message, req.body.time], (err, result) => {
-        if (err) {
-            throw err;
-        }
-        res.send(result.rows);
-    }
-    );
-})
-
-
-// app.post('/', (req, res) => {
-//     con.query('INSERT INTO parameters (temperature, pH, ec, humidity, time) values($1, $2, $3, $4, $5)', [req.body.temperature, req.body.humidity, req.body.ph, req.body.ec, req.body.time], (err, result) => {
-//         if (err) {
-//             throw err;
-//         }
-//         res.send(result.rows);
-//     }
-//     );
-// })
 
 app.post('/devices', (req, res) => {
-    con.query('INSERT INTO devices (light, ec_pump, ph_pump, oxi_pump, time) values(?, ?, ?, ?, ?)', [req.body.light, req.body.ec_pump, req.body.ph_pump, req.body.oxi_pump,req.body.time], (err, result) => {
+    //time in format: 2024-08-12 23:40:20
+    var time = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    con.query('INSERT INTO devices (light, ec_pump, ph_pump, oxi_pump, time) values(?, ?, ?, ?, ?)', [req.body.light, req.body.ec_pump, req.body.ph_pump, req.body.oxi_pump,time], (err, result) => {
         if (err) {
             throw err;
         }
@@ -86,15 +69,41 @@ app.patch('/updateThresholds', (req, res) => {
         console.log('The file has been saved!');
     });
 })
-
-app.get('/getThresholds', (req, res) => {
-    fs.readFile('thresholds.json', (err, data) => {
-        if (err) {
-            console.log(err);
-            throw err;
-        }
-        res.send(JSON.parse(data));
+async function getThresholds() {
+    return new Promise((resolve, reject) => {
+        fs.readFile('thresholds.json', (err, data) => {
+            if (err) {
+                console.log(err);
+                reject(err);
+                return;
+            }
+            resolve(JSON.parse(data));
+        });
     });
+}
+
+app.post('/notifications', async (req, res) => {
+    var message = req.body.message;
+    var thresholds = await getThresholds();
+    con.query('INSERT INTO notifications (message, time) values(?, ?)', [req.body.message, req.body.time], (err, result) => {
+        if (err) {
+            throw err;
+        } 
+        res.send(result.rows);
+    }
+    );
+})
+
+
+app.get('/getThresholds', async (req, res) => {
+   try {
+        var thresholds = await getThresholds();
+        console.log(thresholds);
+        res.send(thresholds);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
 })
 
 
