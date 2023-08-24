@@ -34,6 +34,7 @@ app.get('/notifications', (req, res) => {
     );
 })
 
+
 app.get('/devices', (req, res) => {
     con.query('SELECT * FROM devices order by time desc', (err, result) => {
         if (err) {
@@ -43,12 +44,20 @@ app.get('/devices', (req, res) => {
     }
     );
 })
-
+app.get('/allDevices', (req, res) => {
+    con.query('SELECT * FROM devices order by time desc', (err, result) => {
+        if (err) {
+            throw err;
+        }
+        res.send(result);
+    }
+    );
+})
 
 app.post('/devices', (req, res) => {
     //time in format: 2024-08-12 23:40:20
     var time = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    con.query('INSERT INTO devices (light, ec_pump, ph_pump, oxi_pump, time) values(?, ?, ?, ?, ?)', [req.body.light, req.body.ec_pump, req.body.ph_pump, req.body.oxi_pump,time], (err, result) => {
+    con.query('INSERT INTO devices (Light, EcPump, PhPump, OxygenPump, time) values(?, ?, ?, ?, ?)', [req.body.Light, req.body.EcPump, req.body.PhPump, req.body.OxygenPump,time], (err, result) => {
         if (err) {
             throw err;
         }

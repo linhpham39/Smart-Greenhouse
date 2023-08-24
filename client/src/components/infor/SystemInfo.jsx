@@ -1,6 +1,37 @@
 import React from 'react'
 import './systemInfo.scss'
+import { useState } from 'react'
+import axios from 'axios'
 const SystemInfo = ({controlDevices, parameters}) => {
+    const [status, setStatus] = useState("On");
+    const changeSystemSatus = (message) => {
+        axios({
+            method: "post",
+            baseURL: "https://hydroponicapi.azurewebsites.net/control",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
+            data: {
+                'ActionName':`${message}`,	
+            }
+        }).then((res) => {
+            console.log(res.data);
+            console.log('change status successfully');
+            setStatus(message);
+        }
+        );
+        console.log("message", message);
+    }
+    const handleToggle = (e) => {
+        console.log("status", e.target.checked);
+        if (e.target.checked) {
+            changeSystemSatus("SwitchToAutoMode");
+        } else {
+            changeSystemSatus("SwitchToManualMode");
+        }
+
+    }
     return (
         <div className="controlSystemLeft">
             <h2 className="title">System Information</h2>
@@ -10,7 +41,7 @@ const SystemInfo = ({controlDevices, parameters}) => {
                     <p>Activate automatic control:</p>
                     <div className="switch">
                         <label className="toggle">
-                        <input className="toggle-input" type="checkbox" />
+                        <input className="toggle-input" type="checkbox" onChange={(e) => handleToggle(e)}/>
                         <span className="toggle-label" data-off="OFF" data-on="ON"></span>
                         <span className="toggle-handle"></span>
                         </label>
@@ -20,10 +51,10 @@ const SystemInfo = ({controlDevices, parameters}) => {
 
                 <p className="statusDevice">Current status</p>
                 <ul className="currentDevices">
-                <li className="currentDevice">Light: {controlDevices.light}</li>
-                <li className="currentDevice">PH pump: {controlDevices.ph_pump}</li>
-                <li className="currentDevice">EC pump: {controlDevices.ec_pump}</li>
-                <li className="currentDevice">Oxi pump: {controlDevices.oxi_pump}</li>
+                <li className="currentDevice">Light: {controlDevices.Light}</li>
+                <li className="currentDevice">PH pump: {controlDevices.PhPump}</li>
+                <li className="currentDevice">EC pump: {controlDevices.EcPump}</li>
+                <li className="currentDevice">Oxi pump: {controlDevices.OxygenPump}</li>
                 </ul>
                 <p className="thresholdDevice">Current threshold:</p>
                 <ul className="threshold">

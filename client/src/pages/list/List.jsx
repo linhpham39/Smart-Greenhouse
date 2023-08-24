@@ -9,7 +9,7 @@ const List = () => {
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>
-        <Chart type="light" aspect={2 / 1} />
+        <Chart type="Light" aspect={2 / 1} />
         {/* <Chart type="ph" aspect={2 / 1} />
         <Chart type="ec" aspect={2 / 1} />
         <Chart type="oxi" aspect={2 / 1} /> */}

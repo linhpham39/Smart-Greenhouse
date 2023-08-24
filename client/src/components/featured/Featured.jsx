@@ -10,29 +10,26 @@ import axios from "axios";
 
 const Featured = ({ type, status }) => {
   //type ="Light"
-  console.log("type", type);
-  console.log("status", status);
-  console.log("status11", status.light);
   var emojiArray = {
-    "light": [<EmojiObjectsIcon className="iconFeature"
+    "Light": [<EmojiObjectsIcon className="iconFeature"
       style={{ color: "rgb(240,230,140)", fontSize: "130px" }}
     />,
     <EmojiObjectsIcon className="iconFeature"
       style={{ color: "rgba(0, 0, 0, 0.5)", fontSize: "130px" }}
     />],
-    "ec_pump": [<FireHydrantAltIcon className="iconFeature"
+    "EcPump": [<FireHydrantAltIcon className="iconFeature"
       style={{ color: "rgba(0, 128, 0, 0.4)", fontSize: "130px" }}
     />,
     <FireHydrantAltIcon className="iconFeature"
       style={{ color: "rgba(0, 0, 0, 0.5)", fontSize: "130px" }}
     />],
-    "ph_pump": [<SanitizerOutlined className="iconFeature"
+    "PhPump": [<SanitizerOutlined className="iconFeature"
       style={{ color: "rgba(255, 0, 0, 0.4)", fontSize: "130px" }}
     />,
     <SanitizerOutlined className="iconFeature"
       style={{ color: "rgba(0, 0, 0, 0.5)", fontSize: "130px" }}
     />],
-    "oxi_pump": [<SanitizerOutlined className="iconFeature"
+    "OxygenPump": [<SanitizerOutlined className="iconFeature"
       style={{ color: "rgb(25, 118, 210)", fontSize: "130px" }}
     />,
     <SanitizerOutlined className="iconFeature"
@@ -53,18 +50,16 @@ const Featured = ({ type, status }) => {
     buttons[index].classList.add('on');
     var img = document.getElementsByClassName("iconFeature")[index];
     img.style.color = emojiArray[type][0].props.style.color;
-    console.log(img);
     //when click, send request to server to change the status of the device
     axios({
       method: "post",
-      baseURL: "http://localhost:3000/devices",
+      baseURL: "https://hydroponicapi.azurewebsites.net/control",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       data: {
-        ...status,
-        type: status[type],
+        'ActionName':`TurnOn${type}`,
       }
     }).then((res) => {
       console.log(res.data);
@@ -84,14 +79,13 @@ const Featured = ({ type, status }) => {
     img.style.color = emojiArray[type][1].props.style.color;
     axios({
       method: "post",
-      baseURL: "http://localhost:3000/devices",
+      baseURL: "https://hydroponicapi.azurewebsites.net/control",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       data: {
-        ...status,
-        type: status[type]
+        'ActionName':`TurnOff${type}`,
       }
     }).then((res) => {
       console.log(res.data);

@@ -1,4 +1,4 @@
-# GET http://localhost:3000/devices
+#  GET http://localhost:3000/devices
 
 # GET http://localhost:3000/
 
@@ -8,10 +8,10 @@
 # content-type: application/json
 
 # {
-#     "light": "On",
-#     "ec_pump": "On",
-#     "ph_pump": "On",
-#     "oxi_pump": "On",
+#     "Light": "On",
+#     "EcPump": "On",
+#     "PhPump": "On",
+#     "OxygenPump": "On",
 #     "time": "2024-08-12 23:40:20"
 #  }
 
@@ -32,6 +32,6 @@ POST  http://localhost:3000/notifications
 content-type: application/json
 
 {
-    "message": "pH is beyond 4.5",
-    "time": "2024-08-13 23:40:20"
+    "message": "temperature is beyond 40C",
+    "time": "2024-08-15 23:40:20"
  }
