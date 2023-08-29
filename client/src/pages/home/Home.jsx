@@ -11,9 +11,10 @@ import axios from "axios";
 const Home = () => {
   //fetch data from api
 
-  /* const { data: parameters, isPending1, error1 } = useFetch(
-    "https://hydroponicapi.azurewebsites.net/measurements/latest/1"
-  ); */
+  const { data: recentData, isPending1, error1 } = useFetch(
+    "https://hydroponicapi.azurewebsites.net/measurements/latest/20"
+  );
+
 
   const FetchParameters = async () => {
     const res = await axios.get(
@@ -97,18 +98,18 @@ const Home = () => {
             <h2 className="controlTitle">Control Devices</h2>
             <div className="controlDevice">
               <div className="charts">
-                <Featured type="Light" status={latest} />
+                <Featured type="Light" title="Light   " status={latest} />
               </div>
               <div className="charts">
-                <Featured type="EcPump" status={latest} />
+                <Featured type="EcPump" title="EC Pump" status={latest} />
               </div>
             </div>
             <div className="controlDevice">
               <div className="charts">
-                <Featured type="PhPump" status={latest} />
+                <Featured type="PhPump" title="PH Pump" status={latest} />
               </div>
               <div className="charts">
-                <Featured type="OxygenPump" status={latest} />
+                <Featured type="OxygenPump" title="Oxy Pump" status={latest} />
               </div>
             </div>
           </div>

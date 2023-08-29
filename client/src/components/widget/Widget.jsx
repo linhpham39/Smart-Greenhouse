@@ -3,9 +3,12 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import HPlusMobiledataIcon from '@mui/icons-material/HPlusMobiledata';
 import BoltIcon from '@mui/icons-material/Bolt';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import { useState } from "react";
+import PopUpChart from "../popupChart/PopupChart";
 
-const Widget = ({ type, value }) => {
+const Widget = ({ type, value, recentData }) => {
   let data;
+  const [isChartVisible, setIsChartVisible] = useState(false);
 
   //temporary
   const diff = 20;
@@ -82,7 +85,10 @@ const Widget = ({ type, value }) => {
           || type === "ec" ? "mS/cm" : ""
           || type === "humidity" ? "%" : ""}
         </span>
-        <span className="link">{data.link}</span>
+        {/* <span className="link" onClick={() => setIsChartVisible(true)}>
+          {data.link}
+        </span> */}
+        <PopUpChart  title={data.title}></PopUpChart>
       </div>
       <div className="right">
 {/*         <div className="percentage positive">
@@ -91,6 +97,9 @@ const Widget = ({ type, value }) => {
         </div> */}
         {data.icon}
       </div>
+      {isChartVisible && (
+        <PopUpChart onClose={() => setIsChartVisible(false)} />
+      )}
     </div>
   );
 };

@@ -5,10 +5,9 @@ import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
 import { SanitizerOutlined } from "@mui/icons-material";
 import FireHydrantAltIcon from '@mui/icons-material/FireHydrantAlt';
 import { Button } from "@mui/material";
-import Chart from "../chart/Chart";
 import axios from "axios";
 
-const Featured = ({ type, status }) => {
+const Featured = ({ type,title, status }) => {
   //type ="Light"
   var emojiArray = {
     "Light": [<EmojiObjectsIcon className="iconFeature"
@@ -99,7 +98,7 @@ const Featured = ({ type, status }) => {
     <div className="featured">
       <div className="leftFeature">
         <div className="top">
-          <h1 className="title">{type}</h1>
+          <h1 className="title">{title}</h1>
           <MoreVertIcon fontSize="small" />
         </div>
         <div className="bottom">
@@ -108,7 +107,7 @@ const Featured = ({ type, status }) => {
             {status[type] == "On" ? emojiArray[type][0] : emojiArray[type][1]}
           </div>
           <p className="desc">
-            Click the button to change the the {type}!
+            Click the button to change the the {title}!
           </p>
         </div>
         {status[type] == 'On'?
