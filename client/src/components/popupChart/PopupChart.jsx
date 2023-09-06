@@ -3,10 +3,10 @@ import Chart from '../chart/Chart';
 import './popUpChart.scss';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-const PopUpChart = ({ title}) => {
+const PopUpChart = ({ title, recentData}) => {
   return (
     <>
-  <Popup trigger={<span className='link'>View {title}</span>} 
+  <Popup trigger={<span className='link'>View {title} recently</span>} 
         position="right center"
         closeOnDocumentClick
         modal
@@ -14,7 +14,7 @@ const PopUpChart = ({ title}) => {
         className="popup-content"
         >
     <div>
-    <Chart type={title} aspect={4 / 3} />
+    <Chart type={title} aspect={4 / 3} recentData={recentData} />
     </div>
   </Popup>
     </>

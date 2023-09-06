@@ -12,8 +12,25 @@ const Home = () => {
   //fetch data from api
 
   const { data: recentData, isPending1, error1 } = useFetch(
-    "https://hydroponicapi.azurewebsites.net/measurements/latest/20"
+    "https://hydroponicapi.azurewebsites.net/measurements/latest/30"
   );
+
+  const recentTemp = recentData.map((item) => ({
+    "name": item.timeStamp,
+    "Total": item.temperature
+  })).reverse();
+  const recentPh = recentData.map((item) => ({
+    "name": item.timeStamp,
+    "Total": item.ph
+  })).reverse();
+  const recentEc = recentData.map((item) => ({
+    "name": item.timeStamp,
+    "Total": item.ec
+  })).reverse();
+  const recentHumidity = recentData.map((item) => ({
+    "name": item.timeStamp,
+    "Total": item.humidity
+  })).reverse();
 
 
   const FetchParameters = async () => {
@@ -46,7 +63,7 @@ const Home = () => {
   const { data: devices, isPending2, error2 } = useFetch(
     "http://localhost:3000/allDevices"
   );
-   
+
   /* axios({
     method: "get",
     baseURL: "https://hydroponicapi20230814221546.azurewebsites.net/measurements/latest/1",
@@ -82,10 +99,10 @@ const Home = () => {
       <div className="homeContainer">
         <Navbar />
         <div className="widgets">
-          <Widget type="temperature" value={parameter.temperature} />
-          <Widget type="ph" value={parameter.ph} />
-          <Widget type="ec" value={parameter.ec} />
-          <Widget type="humidity" value={parameter.humidity} />
+          <Widget type="temperature" value={parameter.temperature} recentData={recentTemp} />
+          <Widget type="ph" value={parameter.ph} recentData={recentPh}/>
+          <Widget type="ec" value={parameter.ec} recentData={recentEc}/>
+          <Widget type="humidity" value={parameter.humidity} recentData={recentHumidity}/>
         </div>
         <div className="controlSystem">
           <div className="controlSystemLeft">

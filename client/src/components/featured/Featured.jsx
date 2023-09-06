@@ -40,59 +40,72 @@ const Featured = ({ type,title, status }) => {
 
   
   
-  function handleClickOn() {
-    //change the color of the emoji
-    //change the status
-    status[type] = "On";
-    var buttons = document.getElementsByClassName("featuredBottom");
-    buttons[index].classList.remove('off');
-    buttons[index].classList.add('on');
-    var img = document.getElementsByClassName("iconFeature")[index];
-    img.style.color = emojiArray[type][0].props.style.color;
-    //when click, send request to server to change the status of the device
-    axios({
-      method: "post",
-      baseURL: "https://hydroponicapi.azurewebsites.net/control",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      data: {
-        'ActionName':`TurnOn${type}`,
-      }
-    }).then((res) => {
-      console.log(res.data);
-      console.log('change status successfully');
-      // setParameters(res.data);
+  async function handleClickOn() {
+    try {
+      status[type] = "On";
+      var buttons = document.getElementsByClassName("featuredBottom");
+      buttons[index].classList.remove('off');
+      buttons[index].classList.add('on');
+      var img = document.getElementsByClassName("iconFeature")[index];
+      img.style.color = emojiArray[type][0].props.style.color;
+      // Send the POST request to turn on the device
+      await axios({
+        method: "post",
+        baseURL: "https://hydroponicapi.azurewebsites.net/control",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        data: {
+          ActionName: `TurnOn${type}`,
+        },
+      })
+      
+    } catch (error) {
+      // If the request fails, handle the error (e.g., display an error message)
+      console.error("Failed to turn on device:", error);
+  
+      // Revert the color and status back to "Off"
+      status[type] = "Off";
+      buttons[index].classList.remove('on');
+      buttons[index].classList.add('off');
+      img.style.color = emojiArray[type][1].props.style.color;
     }
-    );
   }
-  function handleClickOff() {
-    //change the color of the emoji
-    //change the status
-    status[type] = "Off";
-    var buttons = document.getElementsByClassName("featuredBottom");
-    buttons[index].classList.remove('on');
-    buttons[index].classList.add('off');
-    var img = document.getElementsByClassName("iconFeature")[index];
-    img.style.color = emojiArray[type][1].props.style.color;
-    axios({
-      method: "post",
-      baseURL: "https://hydroponicapi.azurewebsites.net/control",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      data: {
-        'ActionName':`TurnOff${type}`,
-      }
-    }).then((res) => {
-      console.log(res.data);
-      console.log('change status successfully');
-      // setParameters(res.data);
+  
+  async function handleClickOff() {
+    try {
+      status[type] = "Off";
+      var buttons = document.getElementsByClassName("featuredBottom");
+      buttons[index].classList.remove('on');
+      buttons[index].classList.add('off');
+      var img = document.getElementsByClassName("iconFeature")[index];
+      img.style.color = emojiArray[type][1].props.style.color;
+      // Send the POST request to turn off the device
+      await axios({
+        method: "post",
+        baseURL: "https://hydroponicapi.azurewebsites.net/control",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        data: {
+          ActionName: `TurnOff${type}`,
+        },
+      });
+      
+    } catch (error) {
+      // If the request fails, handle the error (e.g., display an error message)
+      console.error("Failed to turn off device:", error);
+  
+      // Revert the color and status back to "On"
+      status[type] = "On";
+      buttons[index].classList.remove('off');
+      buttons[index].classList.add('on');
+      img.style.color = emojiArray[type][0].props.style.color;
     }
-    );
   }
+  
 
   return (
     <div className="featured">

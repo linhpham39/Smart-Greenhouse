@@ -8,7 +8,7 @@ import PopUpChart from "../popupChart/PopupChart";
 
 const Widget = ({ type, value, recentData }) => {
   let data;
-  const [isChartVisible, setIsChartVisible] = useState(false);
+  // const [isChartVisible, setIsChartVisible] = useState(false);
 
   //temporary
   const diff = 20;
@@ -85,10 +85,7 @@ const Widget = ({ type, value, recentData }) => {
           || type === "ec" ? "mS/cm" : ""
           || type === "humidity" ? "%" : ""}
         </span>
-        {/* <span className="link" onClick={() => setIsChartVisible(true)}>
-          {data.link}
-        </span> */}
-        <PopUpChart  title={data.title}></PopUpChart>
+        <PopUpChart  title={data.title} recentData={recentData}></PopUpChart>
       </div>
       <div className="right">
 {/*         <div className="percentage positive">
@@ -97,9 +94,6 @@ const Widget = ({ type, value, recentData }) => {
         </div> */}
         {data.icon}
       </div>
-      {isChartVisible && (
-        <PopUpChart onClose={() => setIsChartVisible(false)} />
-      )}
     </div>
   );
 };

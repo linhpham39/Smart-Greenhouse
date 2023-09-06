@@ -9,29 +9,39 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "05/07", Total: 10 },
-  { name: "06/07", Total: 7 },
-  { name: "07/07", Total: 12.5 },
-  { name: "08/07", Total: 3.5 },
-  { name: "09/07", Total:  8 },
-  { name: "11/07", Total: 6 },
-  { name: "12/07", Total: 6 },
-  { name: "13/07", Total: 6 },
-  { name: "14/07", Total: 6 },
-  { name: "14/07", Total: 6 },
-  { name: "10/07", Total: 6 },
-  { name: "10/07", Total: 6 },
-  { name: "10/07", Total: 6 },
-  { name: "10/07", Total: 6 },
-  { name: "10/07", Total: 6 },
-];
+/* const data =
+[{name: '2023-08-28T04:06:45.4', Total: 27.9}, 
+{name: '2023-08-28T04:06:41.88', Total: 27.9},
+{name: '2023-08-28T04:06:38.227', Total: 27.9}, 
+{name: '2023-08-28T04:06:34.637', Total: 27.9},
+{name: '2023-08-28T04:06:29.597', Total: 27.9},
+{name: '2023-08-28T04:06:26.457', Total: 27.9},
+{name: '2023-08-28T04:06:23.33', Total: 27.9},
+{name: '2023-08-28T04:06:19.83', Total: 27.9},
+{name: '2023-08-28T04:06:16.197', Total: 27.9},
+{name: '2023-08-28T04:06:12.92', Total: 27.9}, 
+{name: '2023-08-28T04:05:52.28', Total: 28.1},
+{name: '2023-08-28T04:05:49.103', Total: 28.1},
+{name: '2023-08-28T04:05:43.307', Total: 28.1},
+{name: '2023-08-28T04:05:40.197', Total: 28.2},
+{name: '2023-08-28T04:05:36.71', Total: 28.2}] */
 
-const Chart = ({ type, aspect}) => {
-  
+const Chart = ({ type, aspect, recentData}) => {
+  const data = recentData;
+  // Calculate the minimum and maximum values of the Total property
+  var minTotal = Math.min(...data.map((item) => item.Total));
+  var maxTotal = Math.max(...data.map((item) => item.Total));
+
+  // Set the Y-axis domain based on the calculated values
+  var yAxisDomain = [Math.floor(minTotal), Math.ceil(maxTotal)];
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString(); // Customize the time format as needed
+  };
   return (
     <div className="chart">
-      <div className="title">{type} Usage</div>
+      <div className="title">{type} Rencent</div>
       <ResponsiveContainer width="80%" aspect={aspect}>
         <div className="chart-scroll-container">
           <AreaChart
@@ -49,8 +59,12 @@ const Chart = ({ type, aspect}) => {
             <XAxis 
               dataKey="name" 
               stroke="gray"
+              tickFormatter={formatTimestamp}
                />
-            <YAxis label={{ value: "Hours", angle: -90, position: "insideLeft" }} />
+            <YAxis 
+                label={{ value: "Values", angle: -90, position: "insideLeft" }}
+                domain={yAxisDomain}
+                 />
             <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
             <Tooltip />
             <Area
