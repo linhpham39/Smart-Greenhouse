@@ -15,21 +15,9 @@ import  { APImeasurements_count1,APImeasurements_count30, APIsystem_status,  API
 const Home = () => {
   //fetch data from api
 
-  /* const { data: recentData, isPending1, error1 } = useFetch(
+  const { data: recentData, isPending1, error1 } = useFetch(
     APImeasurements_count30
-  ); */
-  //fetch data from api
-  const [recentData, setRecentData] = useState([]);
-  useEffect(() => {
-    const fetchRecentData = async () => {
-      const res = await axios.get(
-        APImeasurements_count30
-      );
-      const data = await res.data;
-      setRecentData(data);
-    };
-    fetchRecentData();
-  }, []);
+  );
 
   const recentTemp = recentData.map((item) => ({
     "name": item.timeStamp,
@@ -50,15 +38,17 @@ const Home = () => {
 
 
   const FetchParameters = async () => {
+    //fetch data from api, with header
     const res = await axios.get(
       APImeasurements_count1
     );
+    console.log(res);
     const data = await res.data;
     return data;
   };
   const [parameter, setParameter] = useState([]);
   //fetch data each 5 seconds
-  useEffect(() => {
+   useEffect(() => {
     const fetchParameter = async () => {
       const parameters = await FetchParameters(); // Make sure FetchParameters() returns a promise
       setParameter(parameters[0]);
@@ -71,9 +61,27 @@ const Home = () => {
 
     // Clean up the interval when the component unmounts or when the dependency array changes
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array to run the effect only once
+  }, []);  // Empty dependency array to run the effect only once
+
+  //if the temperature is higher than the threshold,raise alert
+  if (parameter.temperature > parameter.temperatureThreshold) {
+    alert("Temperature is higher than the threshold");
+  }
+  //if the ph is higher than the threshold,raise alert
+  if (parameter.ph > parameter.phThreshold) {
+    alert("PH is higher than the threshold");
+  }
+  //if the ec is higher than the threshold,raise alert
+  if (parameter.ec > parameter.ecThreshold) {
+    alert("EC is higher than the threshold");
+  }
+  //if the humidity is higher than the threshold,raise alert
+  if (parameter.humidity > parameter.humidityThreshold) {
+    alert("Humidity is higher than the threshold");
+  }
+
   const { data: latest, isPending, error } = useFetch(
-    process.env.APIsystem_status
+    "http://localhost:3000/devices"
   );
 
   const { data: devices, isPending2, error2 } = useFetch(

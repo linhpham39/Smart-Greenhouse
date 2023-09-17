@@ -6,11 +6,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
 import { useState } from "react";	
 import Pagination from "../pagination/Pagination";
-import useFetch from "../../hooks/useFetch";
-// import { useEffect, useState } from "react";
+
 
 const Table1 = ({devices}) => {
   //fetch data from api, get devices table and display in table format

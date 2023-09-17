@@ -2,12 +2,14 @@ import React from 'react'
 import './systemInfo.scss'
 import { useState } from 'react'
 import axios from 'axios'
+import  { APIsystem_control} from "../../config"
+ 
 const SystemInfo = ({controlDevices, parameters}) => {
     const [status, setStatus] = useState("On");
     const changeSystemSatus = (message) => {
         axios({
             method: "post",
-            baseURL: "https://hydroponicapi.azurewebsites.net/control",
+            baseURL: APIsystem_control,
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",

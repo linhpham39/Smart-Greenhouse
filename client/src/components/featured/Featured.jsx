@@ -6,9 +6,7 @@ import { SanitizerOutlined } from "@mui/icons-material";
 import FireHydrantAltIcon from '@mui/icons-material/FireHydrantAlt';
 import { Button } from "@mui/material";
 import axios from "axios";
-import  { 
-  APIsystem_control 
-} from "../../config"
+import  { APIsystem_control} from "../../config"
 
 const Featured = ({ type,title, status }) => {
   //type ="Light"
