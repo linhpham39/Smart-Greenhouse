@@ -6,6 +6,9 @@ import { SanitizerOutlined } from "@mui/icons-material";
 import FireHydrantAltIcon from '@mui/icons-material/FireHydrantAlt';
 import { Button } from "@mui/material";
 import axios from "axios";
+import  { 
+  APIsystem_control 
+} from "../../config"
 
 const Featured = ({ type,title, status }) => {
   //type ="Light"
@@ -51,7 +54,7 @@ const Featured = ({ type,title, status }) => {
       // Send the POST request to turn on the device
       await axios({
         method: "post",
-        baseURL: "https://hydroponicapi.azurewebsites.net/control",
+        baseURL: APIsystem_control,
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
@@ -84,7 +87,7 @@ const Featured = ({ type,title, status }) => {
       // Send the POST request to turn off the device
       await axios({
         method: "post",
-        baseURL: "https://hydroponicapi.azurewebsites.net/control",
+        baseURL: APIsystem_control,
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",

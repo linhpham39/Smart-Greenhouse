@@ -8,12 +8,28 @@ import SystemInfo from "../../components/infor/SystemInfo";
 import useFetch from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import  { APImeasurements_count1,APImeasurements_count30, APIsystem_status,  APIsystem_control } from "../../config"
+//env
+
+
 const Home = () => {
   //fetch data from api
 
-  const { data: recentData, isPending1, error1 } = useFetch(
-    "https://hydroponicapi.azurewebsites.net/measurements/latest/30"
-  );
+  /* const { data: recentData, isPending1, error1 } = useFetch(
+    APImeasurements_count30
+  ); */
+  //fetch data from api
+  const [recentData, setRecentData] = useState([]);
+  useEffect(() => {
+    const fetchRecentData = async () => {
+      const res = await axios.get(
+        APImeasurements_count30
+      );
+      const data = await res.data;
+      setRecentData(data);
+    };
+    fetchRecentData();
+  }, []);
 
   const recentTemp = recentData.map((item) => ({
     "name": item.timeStamp,
@@ -35,7 +51,7 @@ const Home = () => {
 
   const FetchParameters = async () => {
     const res = await axios.get(
-      "https://hydroponicapi.azurewebsites.net/measurements/latest/1"
+      APImeasurements_count1
     );
     const data = await res.data;
     return data;
@@ -57,41 +73,13 @@ const Home = () => {
     return () => clearInterval(intervalId);
   }, []); // Empty dependency array to run the effect only once
   const { data: latest, isPending, error } = useFetch(
-    "http://localhost:3000/devices"
+    process.env.APIsystem_status
   );
 
   const { data: devices, isPending2, error2 } = useFetch(
     "http://localhost:3000/allDevices"
   );
 
-  /* axios({
-    method: "get",
-    baseURL: "https://hydroponicapi20230814221546.azurewebsites.net/measurements/latest/1",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
-  }).then((res) => {
-    console.log(res.data);
-    // setParameters(res.data);
-    
-  }); */
-
-  // console.log('device',controlDevices);
-  // console.log('status Light', controlDevices.Light);
-  //console.log('para',parameters);
-  //  var controlDevices = {
-  //   Light: "On",
-  //   PhPump: "Off",
-  //   EcPump: "Off",
-  //   OxygenPump: "On",
-  // };
-  // var parameters = {
-  //   temperature: "30",
-  //   ph: "2",
-  //   ec: "3.4",
-  //   humidity: "30",
-  // };
 
   return (
     <div className="home">

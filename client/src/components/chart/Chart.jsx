@@ -9,22 +9,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-/* const data =
-[{name: '2023-08-28T04:06:45.4', Total: 27.9}, 
-{name: '2023-08-28T04:06:41.88', Total: 27.9},
-{name: '2023-08-28T04:06:38.227', Total: 27.9}, 
-{name: '2023-08-28T04:06:34.637', Total: 27.9},
-{name: '2023-08-28T04:06:29.597', Total: 27.9},
-{name: '2023-08-28T04:06:26.457', Total: 27.9},
-{name: '2023-08-28T04:06:23.33', Total: 27.9},
-{name: '2023-08-28T04:06:19.83', Total: 27.9},
-{name: '2023-08-28T04:06:16.197', Total: 27.9},
-{name: '2023-08-28T04:06:12.92', Total: 27.9}, 
-{name: '2023-08-28T04:05:52.28', Total: 28.1},
-{name: '2023-08-28T04:05:49.103', Total: 28.1},
-{name: '2023-08-28T04:05:43.307', Total: 28.1},
-{name: '2023-08-28T04:05:40.197', Total: 28.2},
-{name: '2023-08-28T04:05:36.71', Total: 28.2}] */
 
 const Chart = ({ type, aspect, recentData}) => {
   const data = recentData;
