@@ -2,7 +2,8 @@ import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import { useState } from "react";
-import {setThreshold} from "../../thresholds";
+import { setThreshold } from "../../thresholds";
+
 
 const New = ({ inputs, title }) => {
   title = "Set Thresholds";
@@ -11,6 +12,7 @@ const New = ({ inputs, title }) => {
   const [phValue, setPhValue] = useState("");
   const [temperatureValue, setTemperatureValue] = useState("");
   const [humidityValue, setHumidityValue] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,9 +20,18 @@ const New = ({ inputs, title }) => {
     console.log("phValue: ", phValue);
     console.log("temperatureValue: ", temperatureValue);
     console.log("humidityValue: ", humidityValue);
-    
+
     //update the thresholds in thresholds.json
-    //setThreshold(ecValue, phValue, temperatureValue, humidityValue);
+    setThreshold(ecValue, phValue, temperatureValue, humidityValue);
+    // Clear the input values by resetting the state
+    setEcValue("");
+    setPhValue("");
+    setTemperatureValue("");
+    setHumidityValue("");
+
+    // Set the success message
+    setSuccessMessage("Thresholds updated successfully!");
+
   }
 
   const handleChange = (e, label) => {
@@ -62,6 +73,7 @@ const New = ({ inputs, title }) => {
               ))}
               <button>Send</button>
             </form>
+            {successMessage && <div className="success-message">{successMessage}</div>}
           </div>
         </div>
       </div>

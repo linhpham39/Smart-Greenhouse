@@ -11,25 +11,25 @@ import  { APIsystem_control} from "../../config"
 const Featured = ({ type,title, status }) => {
   //type ="Light"
   var emojiArray = {
-    "Light": [<EmojiObjectsIcon className="iconFeature"
+    "light": [<EmojiObjectsIcon className="iconFeature"
       style={{ color: "rgb(240,230,140)", fontSize: "130px" }}
     />,
     <EmojiObjectsIcon className="iconFeature"
       style={{ color: "rgba(0, 0, 0, 0.5)", fontSize: "130px" }}
     />],
-    "EcPump": [<FireHydrantAltIcon className="iconFeature"
+    "ecPump": [<FireHydrantAltIcon className="iconFeature"
       style={{ color: "rgba(0, 128, 0, 0.4)", fontSize: "130px" }}
     />,
     <FireHydrantAltIcon className="iconFeature"
       style={{ color: "rgba(0, 0, 0, 0.5)", fontSize: "130px" }}
     />],
-    "PhPump": [<SanitizerOutlined className="iconFeature"
+    "phPump": [<SanitizerOutlined className="iconFeature"
       style={{ color: "rgba(255, 0, 0, 0.4)", fontSize: "130px" }}
     />,
     <SanitizerOutlined className="iconFeature"
       style={{ color: "rgba(0, 0, 0, 0.5)", fontSize: "130px" }}
     />],
-    "OxygenPump": [<SanitizerOutlined className="iconFeature"
+    "oxygenPump": [<SanitizerOutlined className="iconFeature"
       style={{ color: "rgb(25, 118, 210)", fontSize: "130px" }}
     />,
     <SanitizerOutlined className="iconFeature"
@@ -43,13 +43,14 @@ const Featured = ({ type,title, status }) => {
   
   async function handleClickOn() {
     try {
-      status[type] = "On";
+      status[type] = true;
       var buttons = document.getElementsByClassName("featuredBottom");
       buttons[index].classList.remove('off');
       buttons[index].classList.add('on');
       var img = document.getElementsByClassName("iconFeature")[index];
       img.style.color = emojiArray[type][0].props.style.color;
       // Send the POST request to turn on the device
+      const action = type.charAt(0).toUpperCase() + type.slice(1);
       await axios({
         method: "post",
         baseURL: APIsystem_control,
@@ -58,7 +59,7 @@ const Featured = ({ type,title, status }) => {
           "Access-Control-Allow-Origin": "*",
         },
         data: {
-          ActionName: `TurnOn${type}`,
+          ActionName: `TurnOn${action}`,
         },
       })
       
@@ -67,7 +68,7 @@ const Featured = ({ type,title, status }) => {
       console.error("Failed to turn on device:", error);
   
       // Revert the color and status back to "Off"
-      status[type] = "Off";
+      status[type] = false;
       buttons[index].classList.remove('on');
       buttons[index].classList.add('off');
       img.style.color = emojiArray[type][1].props.style.color;
@@ -76,13 +77,14 @@ const Featured = ({ type,title, status }) => {
   
   async function handleClickOff() {
     try {
-      status[type] = "Off";
+      status[type] = false;
       var buttons = document.getElementsByClassName("featuredBottom");
       buttons[index].classList.remove('on');
       buttons[index].classList.add('off');
       var img = document.getElementsByClassName("iconFeature")[index];
       img.style.color = emojiArray[type][1].props.style.color;
       // Send the POST request to turn off the device
+      const action = type.charAt(0).toUpperCase() + type.slice(1);
       await axios({
         method: "post",
         baseURL: APIsystem_control,
@@ -91,7 +93,7 @@ const Featured = ({ type,title, status }) => {
           "Access-Control-Allow-Origin": "*",
         },
         data: {
-          ActionName: `TurnOff${type}`,
+          ActionName: `TurnOff${action}`,
         },
       });
       
@@ -100,7 +102,7 @@ const Featured = ({ type,title, status }) => {
       console.error("Failed to turn off device:", error);
   
       // Revert the color and status back to "On"
-      status[type] = "On";
+      status[type] = true;
       buttons[index].classList.remove('off');
       buttons[index].classList.add('on');
       img.style.color = emojiArray[type][0].props.style.color;
@@ -118,13 +120,13 @@ const Featured = ({ type,title, status }) => {
         <div className="bottom">
           <div className="featuredChart">
             {/* {emojiArray[type]} */}
-            {status[type] == "On" ? emojiArray[type][0] : emojiArray[type][1]}
+            {status[type] == true ? emojiArray[type][0] : emojiArray[type][1]}
           </div>
           <p className="desc">
             Click the button to change the the {title}!
           </p>
         </div>
-        {status[type] == 'On'?
+        {status[type] == true?
         <div className="featuredBottom on">
           <Button className="buttonOnFeature"  onClick={handleClickOn}>On</Button>
           <Button className="buttonOffFeature" onClick={handleClickOff}>Off</Button>

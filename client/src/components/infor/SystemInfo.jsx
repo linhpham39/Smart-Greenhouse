@@ -5,7 +5,7 @@ import axios from 'axios'
 import  { APIsystem_control} from "../../config"
  
 const SystemInfo = ({controlDevices, parameters}) => {
-    const [status, setStatus] = useState("On");
+    
     const changeSystemSatus = (message) => {
         axios({
             method: "post",
@@ -20,9 +20,16 @@ const SystemInfo = ({controlDevices, parameters}) => {
         }).then((res) => {
             console.log(res.data);
             console.log('change status successfully');
-            setStatus(message);
         }
-        );
+        ).catch((err) => {
+            console.log('change status failed');
+            //if fail, change the input back to the previous value
+            var input = document.getElementsByClassName("toggle-input")[0];
+            input.checked = !input.checked;
+            console.log("cannot change status");
+        }
+        )
+        ;
         console.log("message", message);
     }
     const handleToggle = (e) => {
@@ -43,22 +50,25 @@ const SystemInfo = ({controlDevices, parameters}) => {
                     <p>Activate automatic control:</p>
                     <div className="switch">
                         <label className="toggle">
-                        <input className="toggle-input" type="checkbox" onChange={(e) => handleToggle(e)}/>
+                        <input className="toggle-input" checked={controlDevices.autoMode} type="checkbox" onChange={(e) => handleToggle(e)}/>
                         <span className="toggle-label" data-off="OFF" data-on="ON"></span>
                         <span className="toggle-handle"></span>
                         </label>
                     </div>
                 </div>
-                <p className="numberDevice">The number of devices:  4</p>
 
-                <p className="statusDevice">Current status</p>
+                <br />
+                <p className="numberDevice">The number of devices:  4</p>
+                <br />
+                <p className="statusDevice">Current status:</p>
                 <ul className="currentDevices">
-                <li className="currentDevice">Light: {controlDevices.Light}</li>
-                <li className="currentDevice">PH pump: {controlDevices.PhPump}</li>
-                <li className="currentDevice">EC pump: {controlDevices.EcPump}</li>
-                <li className="currentDevice">Oxi pump: {controlDevices.OxygenPump}</li>
+                <li className="currentDevice">Light: {controlDevices.light ? "On" : "Off"}</li>
+                <li className="currentDevice">PH pump: {controlDevices.phPump ? "On" : "Off"}</li>
+                <li className="currentDevice">EC pump: {controlDevices.ecPump ? "On" : "Off"}</li>
+                <li className="currentDevice">Oxi pump: {controlDevices.oxygenPump ? "On" : "Off"}</li>
                 </ul>
-                <p className="thresholdDevice">Current threshold:</p>
+                <br />
+                <p className="thresholdDevice">Current parameters:</p>
                 <ul className="threshold">
                 <li className="currentThreshold">Temperature: {parameters.temperature}</li>
                 <li className="currentThreshold">PH: {parameters.ph}</li>

@@ -1,21 +1,24 @@
-import fs from 'fs';
-
-const filePath = './thresholds.json';
+const localStorageKey = 'thresholds';
 
 const getThresholds = () => {
-   const data = fs.readFileSync(filePath);
-  return JSON.parse(data);
+  const data = localStorage.getItem(localStorageKey);
+  return data ? JSON.parse(data) : null;
 };
 
 const setThreshold = (ecValue, phValue, temperatureValue, humidityValue) => {
-  fs.writeFileSync(filePath, JSON.stringify(
-    {
-        "ec": ecValue,
-        "ph": phValue,
-        "temperature": temperatureValue,
-        "humidity": humidityValue
-      }
-  )); 
+  const thresholds = {
+    ec: ecValue,
+    ph: phValue,
+    temperature: temperatureValue,
+    humidity: humidityValue,
+  };
+
+  try {
+    localStorage.setItem(localStorageKey, JSON.stringify(thresholds));
+    console.log('Thresholds updated successfully.');
+  } catch (error) {
+    console.error('Error updating thresholds:', error);
+  }
 };
 
-export default { getThresholds, setThreshold };
+export { getThresholds, setThreshold };

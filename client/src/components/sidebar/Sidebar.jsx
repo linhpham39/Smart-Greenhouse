@@ -1,10 +1,10 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
+//import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+//import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+//import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+//import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
@@ -28,29 +28,8 @@ const Sidebar = () => {
               <span>Dashboard</span>
             </li>
           </Link>
-          {/* <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
-            <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Users</span>
-            </li>
-          </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
-            <li>
-              <StoreIcon className="icon" />
-              <span>Products</span>
-            </li>
-          </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
-          </li>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li> */}
           
-          <p className="title">USEFUL</p>
+          {/* <p className="title">USEFUL</p>
           <Link to="/users" style={{ textDecoration: "none" }}>
             <li>
             <InsertChartIcon className="icon" />
@@ -62,23 +41,15 @@ const Sidebar = () => {
               <NotificationsNoneIcon className="icon" />
               <span>Notifications</span>
             </li>
-          </Link>
-          <p className="title">SERVICE</p>
+          </Link> */}
+          <p className="title">SETTING</p>
           <Link to="/users/new" style={{ textDecoration: "none" }}>
             <li>
               <SettingsApplicationsIcon className="icon" />
-              <span>Settings</span>
+              <span>Thresholds</span>
             </li>
           </Link>
-          <p className="title">USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Logout</span>
-          </li>
+          <p className="title">MODE</p>
         </ul>
       </div>
       <div className="bottom">

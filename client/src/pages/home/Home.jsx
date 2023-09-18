@@ -8,7 +8,7 @@ import SystemInfo from "../../components/infor/SystemInfo";
 import useFetch from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import  { APImeasurements_count1,APImeasurements_count30, APIsystem_status,  APIsystem_control } from "../../config"
+import { APImeasurements_count1, APImeasurements_count30, APIsystem_status, APIsystem_control } from "../../config"
 //env
 
 
@@ -18,7 +18,15 @@ const Home = () => {
   const { data: recentData, isPending1, error1 } = useFetch(
     APImeasurements_count30
   );
+  var alertShown = {
+    ec: false,
+    ph: false,
+    temperature: false,
+    humidity: false,
+    dataShown: false
+  }
 
+  console.log("recentData", recentData);
   const recentTemp = recentData.map((item) => ({
     "name": item.timeStamp,
     "Total": item.temperature
@@ -48,10 +56,11 @@ const Home = () => {
   };
   const [parameter, setParameter] = useState([]);
   //fetch data each 5 seconds
-   useEffect(() => {
+  useEffect(() => {
     const fetchParameter = async () => {
       const parameters = await FetchParameters(); // Make sure FetchParameters() returns a promise
       setParameter(parameters[0]);
+      alertShown.dataShown = true;
       console.log("parameters", parameters[0]);
     };
 
@@ -63,32 +72,51 @@ const Home = () => {
     return () => clearInterval(intervalId);
   }, []);  // Empty dependency array to run the effect only once
 
-  //if the temperature is higher than the threshold,raise alert
-  if (parameter.temperature > parameter.temperatureThreshold) {
-    alert("Temperature is higher than the threshold");
-  }
-  //if the ph is higher than the threshold,raise alert
-  if (parameter.ph > parameter.phThreshold) {
-    alert("PH is higher than the threshold");
-  }
-  //if the ec is higher than the threshold,raise alert
-  if (parameter.ec > parameter.ecThreshold) {
-    alert("EC is higher than the threshold");
-  }
-  //if the humidity is higher than the threshold,raise alert
-  if (parameter.humidity > parameter.humidityThreshold) {
-    alert("Humidity is higher than the threshold");
+
+  const FetchStatus = async () => {
+    //fetch data from api, with header
+    const res = await axios.get(
+      APIsystem_status
+    );
+    console.log(res);
+    const data = await res.data;
+    return data;
+  };
+  const [status, setStatus] = useState([]);
+  //fetch data each 5 seconds
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const status = await FetchStatus(); // Make sure FetchParameters() returns a promise
+      if(!status.start && !status.stop && !status.auto && !status.manual) {
+          return;
+      }
+        setStatus(status);
+      console.log("status", status);
+    };
+
+    const intervalId = setInterval(() => {
+      fetchStatus();
+    }, 5000);
+    return () => clearInterval(intervalId);
+  }, []);  // Empty dependency array to run the effect only once
+
+
+
+  //get the thresholds stored in localStrorage
+  const thresholds = JSON.parse(localStorage.getItem("thresholds"));
+
+  const raiseAlert = (type, value) => {
+    console.log("ALLERT SHOWN", type,alertShown[type]);
+    if (value > thresholds[type] && !alertShown[type] && alertShown.dataShown) {
+      alert(`${type} is beyond ${thresholds[type]}!`);
+      alertShown[type] = true;
+    }
   }
 
-  const { data: latest, isPending, error } = useFetch(
-    "http://localhost:3000/devices"
-  );
-
-  const { data: devices, isPending2, error2 } = useFetch(
-    "http://localhost:3000/allDevices"
-  );
-
-
+  raiseAlert("ec", parameter.ec);
+  raiseAlert("ph", parameter.ph);
+  raiseAlert("temperature", parameter.temperature);
+  raiseAlert("humidity", parameter.humidity);
   return (
     <div className="home">
       <Sidebar />
@@ -96,14 +124,14 @@ const Home = () => {
         <Navbar />
         <div className="widgets">
           <Widget type="temperature" value={parameter.temperature} recentData={recentTemp} />
-          <Widget type="ph" value={parameter.ph} recentData={recentPh}/>
-          <Widget type="ec" value={parameter.ec} recentData={recentEc}/>
-          <Widget type="humidity" value={parameter.humidity} recentData={recentHumidity}/>
+          <Widget type="ph" value={parameter.ph} recentData={recentPh} />
+          <Widget type="ec" value={parameter.ec} recentData={recentEc} />
+          <Widget type="humidity" value={parameter.humidity} recentData={recentHumidity} />
         </div>
         <div className="controlSystem">
           <div className="controlSystemLeft">
             <SystemInfo
-              controlDevices={latest}
+              controlDevices={status}
               parameters={parameter}
             />
           </div>
@@ -111,26 +139,26 @@ const Home = () => {
             <h2 className="controlTitle">Control Devices</h2>
             <div className="controlDevice">
               <div className="charts">
-                <Featured type="Light" title="Light   " status={latest} />
+                <Featured type="light" title="Light   " status={status} />
               </div>
               <div className="charts">
-                <Featured type="EcPump" title="EC Pump" status={latest} />
+                <Featured type="ecPump" title="EC Pump" status={status} />
               </div>
             </div>
             <div className="controlDevice">
               <div className="charts">
-                <Featured type="PhPump" title="PH Pump" status={latest} />
+                <Featured type="phPump" title="PH Pump" status={status} />
               </div>
               <div className="charts">
-                <Featured type="OxygenPump" title="Oxy Pump" status={latest} />
+                <Featured type="oxygenPump" title="Oxy Pump" status={status} />
               </div>
             </div>
           </div>
         </div>
-        <div className="listContainer">
+        {/* <div className="listContainer">
           <div className="listTitle" >Latest Transactions</div>
           <Table1 devices={devices} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
