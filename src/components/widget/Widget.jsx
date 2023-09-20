@@ -79,7 +79,7 @@ const Widget = ({ type, value, recentData }) => {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {value} {type === "temperature" ? "°C" : ""
+          {type =="ph"? value - 1 : value} {type === "temperature" ? "°C" : ""
           || type === "ph" ? "pH" : ""
           || type === "ec" ? "mS/cm" : ""
           || type === "humidity" ? "%" : ""}

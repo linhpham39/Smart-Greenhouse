@@ -6,6 +6,7 @@ import Featured from "../../components/featured/Featured";
 import SystemInfo from "../../components/infor/SystemInfo";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useFetch from "../../hooks/useFetch";
 import { APImeasurements_count1, APImeasurements_count30, APIsystem_status } from "../../config"
 //env
 
@@ -22,6 +23,7 @@ const Home = () => {
     const data = await res.data;
     return data;
   };
+  //const {recentData, isPending, isError} = useFetch()
   const [recentData, setRecentData] = useState([]);
   //fetch data each 5 seconds
   useEffect(() => {
@@ -63,7 +65,7 @@ const Home = () => {
     var newTime = toLocalTime(item.timeStamp);
     return{
     "name": newTime,
-    "Total": item.ph
+    "Total": item.ph - 1
   }}).reverse();
   const recentEc = recentData.map((item) => {
     var newTime = toLocalTime(item.timeStamp);
@@ -105,7 +107,7 @@ const Home = () => {
     return () => clearInterval(intervalId);
   }, []);  // Empty dependency array to run the effect only once
 
-
+  //const {status, isPending, isError} = useFetch(APIsystem_status)
   const FetchStatus = async () => {
     //fetch data from api, with header
     const res = await axios.get(
@@ -126,13 +128,13 @@ const Home = () => {
         setStatus(status);
       console.log("status", status);
     };
-
-    const intervalId = setInterval(() => {
+    fetchStatus();
+    /* const intervalId = setInterval(() => {
       fetchStatus();
     }, 5000);
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId); */
   }, []);  // Empty dependency array to run the effect only once
-
+ 
 
 
   //get the thresholds stored in localStrorage
@@ -150,13 +152,13 @@ const Home = () => {
     }
   };
   
-  useEffect(() => {
+  /* useEffect(() => {
     raiseAlert("ec", parameter.ec);
     raiseAlert("ph", parameter.ph);
     raiseAlert("temperature", parameter.temperature);
     raiseAlert("humidity", parameter.humidity);
   }
-  , [parameter]);  // Empty dependency array to run the effect only once
+  , [parameter]);   */// Empty dependency array to run the effect only once
   /* 
   raiseAlert("ec", parameter.ec);
   raiseAlert("ph", parameter.ph);
