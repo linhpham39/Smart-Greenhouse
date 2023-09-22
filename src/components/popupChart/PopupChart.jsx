@@ -14,7 +14,7 @@ const PopUpChart = ({ title, recentData}) => {
         className="popup-content"
         >
     <div>
-    <Chart type={title} aspect={4 / 3} recentData={recentData} />
+    <Chart type={title} aspect={10 / 3} recentData={recentData} />
     </div>
   </Popup>
     </>

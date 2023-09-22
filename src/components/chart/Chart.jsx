@@ -13,8 +13,8 @@ import {
 const Chart = ({ type, aspect, recentData}) => {
   const data = recentData;
   // Calculate the minimum and maximum values of the Total property
-  var minTotal = Math.min(...data.map((item) => item.Total));
-  var maxTotal = Math.max(...data.map((item) => item.Total));
+  var minTotal = Math.min(...data.map((item) => item.Total)) - 5;
+  var maxTotal = Math.max(...data.map((item) => item.Total)) + 5;
 
   // Set the Y-axis domain based on the calculated values
   var yAxisDomain = [Math.floor(minTotal), Math.ceil(maxTotal)];
@@ -26,14 +26,14 @@ const Chart = ({ type, aspect, recentData}) => {
   };
   return (
     <div className="chart">
-      <div className="title">{type} Rencent</div>
+      <div className="title">Recent {type} </div>
       <ResponsiveContainer width="80%" aspect={aspect}>
         <div className="chart-scroll-container">
           <AreaChart
-            width={730}
-            height={350}
+            width={1500}
+            height={400}
             data={data}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
           >
             <defs>
               <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
@@ -48,6 +48,7 @@ const Chart = ({ type, aspect, recentData}) => {
             <YAxis 
                 label={{ value: "Values", angle: -90, position: "insideLeft" }}
                 domain={yAxisDomain}
+                tickCount={12}
                  />
             <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
             <Tooltip />

@@ -54,7 +54,6 @@ const Home = () => {
     var newTime = date.toLocaleTimeString(); // Customize the time format as needed
     return newTime;
   }
-  console.log("recentData", recentData);
   const recentTemp = recentData.map((item) => {
     var newTime = toLocalTime(item.timeStamp);
     return{
@@ -101,6 +100,7 @@ const Home = () => {
 
     const intervalId = setInterval(() => {
       fetchParameter();
+      console.log("parameter", parameter);
     }, 5000);
 
     // Clean up the interval when the component unmounts or when the dependency array changes
@@ -152,18 +152,19 @@ const Home = () => {
     }
   };
   
-  /* useEffect(() => {
+  useEffect(() => {
+    console.log("parameter2", parameter, parameter.ec);
     raiseAlert("ec", parameter.ec);
     raiseAlert("ph", parameter.ph);
     raiseAlert("temperature", parameter.temperature);
     raiseAlert("humidity", parameter.humidity);
   }
-  , [parameter]);   */// Empty dependency array to run the effect only once
-  /* 
+  , [parameter]);  // Empty dependency array to run the effect only once
+/* 
   raiseAlert("ec", parameter.ec);
   raiseAlert("ph", parameter.ph);
   raiseAlert("temperature", parameter.temperature);
-  raiseAlert("humidity", parameter.humidity); */
+  raiseAlert("humidity", parameter.humidity);  */
   return (
     <div className="home">
       <Sidebar />
